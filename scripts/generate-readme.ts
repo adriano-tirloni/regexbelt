@@ -20,6 +20,9 @@ interface RegexEntry {
   examples: ExampleEntry[];
   category: string;
   filePath: string;
+}
+
+interface RegexEntryWithDate extends RegexEntry {
   lastUpdated: string;
 }
 
@@ -77,34 +80,23 @@ function collectRegexFiles(directory: string): string[] {
 }
 
 /**
- * Parses a regex source file to extract the JSDoc metadata and the regex pattern
+ * Parses a single JSDoc block to extract description, notes, and examples
  */
-function parseRegexFile(filePath: string): RegexEntry | null {
-  const content = readFileSync(filePath, 'utf-8');
-
-  // Extract JSDoc block
-  const jsdocMatch = content.match(/\/\*\*([\s\S]*?)\*\//);
-  if (!jsdocMatch) return null;
-
-  const jsdocBlock = jsdocMatch[1];
-
+function parseJsdocBlock(jsdocBlock: string, filePath: string) {
   const cleanedLines = jsdocBlock
     .split('\n')
     .map(line => line.replace(/^\s*\*\s?/, '').trim())
     .filter(Boolean);
 
-  // Extract description (lines before any @tag or ___ note)
   const descriptionLines = cleanedLines.filter(
     line => !line.startsWith('@') && !line.startsWith('___'),
   );
   const description = descriptionLines.join(' ');
 
-  // Extract ___ notes (e.g. "___Enforces beginning and end of string___")
   const notes = cleanedLines
     .filter(line => line.startsWith('___'))
     .map(line => line.replace(/^_+|_+$/g, ''));
 
-  // Extract and validate @example tags — expected format: @example ✅|❌ value
   const examples: ExampleEntry[] = [];
   for (const match of jsdocBlock.matchAll(/@example\s+(.+)/g)) {
     const raw = match[1].trim();
@@ -123,29 +115,46 @@ function parseRegexFile(filePath: string): RegexEntry | null {
     });
   }
 
-  // Extract export const name = /pattern/
-  const exportMatch = content.match(/export const (\w+)\s*=\s*(\/.*\/[gimsuy]*);/);
-  if (!exportMatch) return null;
+  return { description, notes, examples };
+}
 
-  // Build category from directory path relative to regexen/
+/**
+ * Parses a regex source file to extract JSDoc metadata and regex patterns.
+ * Supports files with one or more exported regexes, each preceded by a JSDoc block.
+ */
+function parseRegexFile(filePath: string): RegexEntry[] {
+  const content = readFileSync(filePath, 'utf-8');
   const category = relative(regexenDir, filePath).split('/').slice(0, -1).join(' / ');
+  const relPath = relative(projectRoot, filePath);
 
-  return {
-    name: exportMatch[1],
-    description,
-    notes,
-    pattern: exportMatch[2],
-    examples,
-    category,
-    filePath: relative(projectRoot, filePath),
-  };
+  const tuples = [
+    ...content.matchAll(/\/\*\*([\s\S]*?)\*\/\s*export const (\w+)\s*=\s*(\/.*\/[gimsuy]*);/g),
+  ];
+
+  if (tuples.length === 0) {
+    throw new Error(`No JSDoc + export tuples found in ${filePath}`);
+  }
+
+  return tuples.map(match => {
+    const { description, notes, examples } = parseJsdocBlock(match[1], filePath);
+
+    return {
+      name: match[2],
+      description,
+      notes,
+      pattern: match[3],
+      examples,
+      category,
+      filePath: relPath,
+    };
+  });
 }
 
 /**
  * Groups entries by their category path
  */
-function groupByCategory(entries: RegexEntry[]): Map<string, RegexEntry[]> {
-  const groups = new Map<string, RegexEntry[]>();
+function groupByCategory(entries: RegexEntryWithDate[]): Map<string, RegexEntryWithDate[]> {
+  const groups = new Map<string, RegexEntryWithDate[]>();
 
   for (const entry of entries) {
     const existing = groups.get(entry.category) ?? [];
@@ -174,8 +183,7 @@ function formatCategoryTitle(category: string): string {
 const lastUpdatedMap = buildLastUpdatedMap();
 const files = collectRegexFiles(regexenDir);
 const entries = files
-  .map(parseRegexFile)
-  .filter((entry): entry is RegexEntry => entry !== null)
+  .flatMap(parseRegexFile)
   .map(entry => ({ ...entry, lastUpdated: lastUpdatedMap.get(entry.filePath) ?? '' }));
 
 const grouped = groupByCategory(entries);
@@ -183,7 +191,7 @@ const grouped = groupByCategory(entries);
 /**
  * Builds a markdown block for a single regex entry
  */
-function buildEntryBlock(entry: RegexEntry): string[] {
+function buildEntryBlock(entry: RegexEntryWithDate): string[] {
   const lines: string[] = [];
 
   // Line 1: bold linked name => first matching example + description

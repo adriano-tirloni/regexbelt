@@ -11,6 +11,9 @@ importers:
       '@biomejs/biome':
         specifier: ^2.4.8
         version: 2.4.10
+      '@types/node':
+        specifier: ^25.5.2
+        version: 25.5.2
       '@vitest/coverage-v8':
         specifier: ^4.1.3
         version: 4.1.3(vitest@4.1.3)
@@ -22,7 +25,7 @@ importers:
         version: 5.9.3
       vitest:
         specifier: ^4.1.0
-        version: 4.1.3(@types/node@24.12.2)(@vitest/coverage-v8@4.1.3)(vite@8.0.7(@types/node@24.12.2))
+        version: 4.1.3(@types/node@25.5.2)(@vitest/coverage-v8@4.1.3)(vite@8.0.7(@types/node@25.5.2))
 
 packages:
 
@@ -385,8 +388,8 @@ packages:
   '@types/jsesc@2.5.1':
     resolution: {integrity: sha512-9VN+6yxLOPLOav+7PwjZbxiID2bVaeq0ED4qSQmdQTdjnXJSaCVKTR58t15oqH1H5t8Ng2ZX1SabJVoN9Q34bw==}
 
-  '@types/node@24.12.2':
-    resolution: {integrity: sha512-A1sre26ke7HDIuY/M23nd9gfB+nrmhtYyMINbjI1zHJxYteKR6qSMX56FsmjMcDb3SMcjJg5BiRRgOCC/yBD0g==}
+  '@types/node@25.5.2':
+    resolution: {integrity: sha512-tO4ZIRKNC+MDWV4qKVZe3Ql/woTnmHDr5JD8UI5hn2pwBrHEwOEMZK7WlNb5RKB6EoJ02gwmQS9OrjuFnZYdpg==}
 
   '@vitest/coverage-v8@4.1.3':
     resolution: {integrity: sha512-/MBdrkA8t6hbdCWFKs09dPik774xvs4Z6L4bycdCxYNLHM8oZuRyosumQMG19LUlBsB6GeVpL1q4kFFazvyKGA==}
@@ -757,8 +760,8 @@ packages:
   unconfig-core@7.5.0:
     resolution: {integrity: sha512-Su3FauozOGP44ZmKdHy2oE6LPjk51M/TRRjHv2HNCWiDvfvCoxC2lno6jevMA91MYAdCdwP05QnWdWpSbncX/w==}
 
-  undici-types@7.16.0:
-    resolution: {integrity: sha512-Zz+aZWSj8LE6zoxD+xrjh4VfkIG8Ya6LvYkZqtUQGJPZjYl53ypCaUwWqo7eI0x66KBGeRo+mlBEkMSeSZ38Nw==}
+  undici-types@7.18.2:
+    resolution: {integrity: sha512-AsuCzffGHJybSaRrmr5eHr81mwJU3kjw6M+uprWvCXiNeN9SOGwQ3Jn8jb8m3Z6izVgknn1R0FTCEAP2QrLY/w==}
 
   unrun@0.2.34:
     resolution: {integrity: sha512-LyaghRBR++r7svhDK6tnDz2XaYHWdneBOA0jbS8wnRsHerI9MFljX4fIiTgbbNbEVzZ0C9P1OjWLLe1OqoaaEw==}
@@ -1122,10 +1125,9 @@ snapshots:
 
   '@types/jsesc@2.5.1': {}
 
-  '@types/node@24.12.2':
+  '@types/node@25.5.2':
     dependencies:
-      undici-types: 7.16.0
-    optional: true
+      undici-types: 7.18.2
 
   '@vitest/coverage-v8@4.1.3(vitest@4.1.3)':
     dependencies:
@@ -1139,7 +1141,7 @@ snapshots:
       obug: 2.1.1
       std-env: 4.0.0
       tinyrainbow: 3.1.0
-      vitest: 4.1.3(@types/node@24.12.2)(@vitest/coverage-v8@4.1.3)(vite@8.0.7(@types/node@24.12.2))
+      vitest: 4.1.3(@types/node@25.5.2)(@vitest/coverage-v8@4.1.3)(vite@8.0.7(@types/node@25.5.2))
 
   '@vitest/expect@4.1.3':
     dependencies:
@@ -1150,13 +1152,13 @@ snapshots:
       chai: 6.2.2
       tinyrainbow: 3.1.0
 
-  '@vitest/mocker@4.1.3(vite@8.0.7(@types/node@24.12.2))':
+  '@vitest/mocker@4.1.3(vite@8.0.7(@types/node@25.5.2))':
     dependencies:
       '@vitest/spy': 4.1.3
       estree-walker: 3.0.3
       magic-string: 0.30.21
     optionalDependencies:
-      vite: 8.0.7(@types/node@24.12.2)
+      vite: 8.0.7(@types/node@25.5.2)
 
   '@vitest/pretty-format@4.1.3':
     dependencies:
@@ -1470,8 +1472,7 @@ snapshots:
       '@quansync/fs': 1.0.0
       quansync: 1.0.0
 
-  undici-types@7.16.0:
-    optional: true
+  undici-types@7.18.2: {}
 
   unrun@0.2.34(@emnapi/core@1.9.2)(@emnapi/runtime@1.9.2):
     dependencies:
@@ -1480,7 +1481,7 @@ snapshots:
       - '@emnapi/core'
       - '@emnapi/runtime'
 
-  vite@8.0.7(@types/node@24.12.2):
+  vite@8.0.7(@types/node@25.5.2):
     dependencies:
       lightningcss: 1.32.0
       picomatch: 4.0.4
@@ -1488,13 +1489,13 @@ snapshots:
       rolldown: 1.0.0-rc.13
       tinyglobby: 0.2.16
     optionalDependencies:
-      '@types/node': 24.12.2
+      '@types/node': 25.5.2
       fsevents: 2.3.3
 
-  vitest@4.1.3(@types/node@24.12.2)(@vitest/coverage-v8@4.1.3)(vite@8.0.7(@types/node@24.12.2)):
+  vitest@4.1.3(@types/node@25.5.2)(@vitest/coverage-v8@4.1.3)(vite@8.0.7(@types/node@25.5.2)):
     dependencies:
       '@vitest/expect': 4.1.3
-      '@vitest/mocker': 4.1.3(vite@8.0.7(@types/node@24.12.2))
+      '@vitest/mocker': 4.1.3(vite@8.0.7(@types/node@25.5.2))
       '@vitest/pretty-format': 4.1.3
       '@vitest/runner': 4.1.3
       '@vitest/snapshot': 4.1.3
@@ -1511,10 +1512,10 @@ snapshots:
       tinyexec: 1.1.1
       tinyglobby: 0.2.16
       tinyrainbow: 3.1.0
-      vite: 8.0.7(@types/node@24.12.2)
+      vite: 8.0.7(@types/node@25.5.2)
       why-is-node-running: 2.3.0
     optionalDependencies:
-      '@types/node': 24.12.2
+      '@types/node': 25.5.2
       '@vitest/coverage-v8': 4.1.3(vitest@4.1.3)
     transitivePeerDependencies:
       - msw

@@ -175,6 +175,25 @@ countries.br.documents.cpf.test('123.456.789-09'); // true
 
 ---
 
+[**`isbn10`**](./src/regexen/countries/br/codes/isbn.ts) — `✅ '0306406152'` — Matches an ISBN-10: 9 digits followed by a check character (digit or uppercase X) *(Enforces beginning and end of string)*
+
+```regex
+/^\d{9}[\dX]$/
+```
+
+<details><summary>Examples</summary>
+
+| Input | Match |
+|:------|:-----:|
+| `0306406152` | ✅ |
+| `123456789x` | ❌ |
+
+</details>
+
+<sub>Last updated: 2026-04-09</sub>
+
+---
+
 [**`nfeKey`**](./src/regexen/countries/br/codes/nfe-key.ts) — `✅ '35210612345678000195550010001234561123456784'` — Matches a Brazilian NFe (Nota Fiscal Eletronica) access key as 44 consecutive digits *(Enforces beginning and end of string)*
 
 ```regex
@@ -213,25 +232,6 @@ countries.br.documents.cpf.test('123.456.789-09'); // true
 
 ### Countries / BR / Contact
 
-[**`addressNumber`**](./src/regexen/countries/br/contact/address-number.ts) — `✅ '123'` — Matches a Brazilian address number: one or more digits, or S/N (case-insensitive) *(Enforces beginning and end of string)*
-
-```regex
-/^(?:\d+|[Ss]\/[Nn])$/
-```
-
-<details><summary>Examples</summary>
-
-| Input | Match |
-|:------|:-----:|
-| `123` | ✅ |
-| `ABC` | ❌ |
-
-</details>
-
-<sub>Last updated: 2026-04-09</sub>
-
----
-
 [**`cepFormatted`**](./src/regexen/countries/br/contact/cep.ts) — `✅ '01001-000'` — Matches a Brazilian CEP (postal code) in the format XXXXX-XXX *(Enforces beginning and end of string)*
 
 ```regex
@@ -244,6 +244,25 @@ countries.br.documents.cpf.test('123.456.789-09'); // true
 |:------|:-----:|
 | `01001-000` | ✅ |
 | `01001000` | ❌ |
+
+</details>
+
+<sub>Last updated: 2026-04-09</sub>
+
+---
+
+[**`cepStripped`**](./src/regexen/countries/br/contact/cep.ts) — `✅ '01001000'` — Matches a Brazilian CEP (postal code) as 8 consecutive digits *(Enforces beginning and end of string)*
+
+```regex
+/^\d{8}$/
+```
+
+<details><summary>Examples</summary>
+
+| Input | Match |
+|:------|:-----:|
+| `01001000` | ✅ |
+| `01001-000` | ❌ |
 
 </details>
 
@@ -282,6 +301,25 @@ countries.br.documents.cpf.test('123.456.789-09'); // true
 |:------|:-----:|
 | `(11) 91234-5678` | ✅ |
 | `+55 11 91234-5678` | ❌ |
+
+</details>
+
+<sub>Last updated: 2026-04-09</sub>
+
+---
+
+[**`phoneStripped`**](./src/regexen/countries/br/contact/phone.ts) — `✅ '11912345678'` — Matches a Brazilian phone number as 10 or 11 consecutive digits 2-digit area code followed by 8-digit landline or 9-digit mobile (starts with 9) *(Enforces beginning and end of string)*
+
+```regex
+/^\d{2}(?:9\d{8}|\d{8})$/
+```
+
+<details><summary>Examples</summary>
+
+| Input | Match |
+|:------|:-----:|
+| `11912345678` | ✅ |
+| `+55 (11) 91234-5678` | ❌ |
 
 </details>
 
@@ -346,6 +384,25 @@ countries.br.documents.cpf.test('123.456.789-09'); // true
 
 ---
 
+[**`cnpjAlphanumericStripped`**](./src/regexen/countries/br/documents/cnpj-alphanumeric.ts) — `✅ 'A1B2CD3EF4G567'` — Matches a Brazilian alphanumeric CNPJ as 12 alphanumeric characters followed by 2 digits *(Enforces beginning and end of string)*
+
+```regex
+/^[A-Za-z0-9]{12}\d{2}$/
+```
+
+<details><summary>Examples</summary>
+
+| Input | Match |
+|:------|:-----:|
+| `A1B2CD3EF4G567` | ✅ |
+| `A1.B2C.D3E/F4G5-67` | ❌ |
+
+</details>
+
+<sub>Last updated: 2026-04-09</sub>
+
+---
+
 [**`cnpjFormatted`**](./src/regexen/countries/br/documents/cnpj.ts) — `✅ '12.345.678/0001-95'` — Matches a Brazilian CNPJ number in the format XX.XXX.XXX/XXXX-XX *(Enforces beginning and end of string)*
 
 ```regex
@@ -358,6 +415,25 @@ countries.br.documents.cpf.test('123.456.789-09'); // true
 |:------|:-----:|
 | `12.345.678/0001-95` | ✅ |
 | `12345678000195` | ❌ |
+
+</details>
+
+<sub>Last updated: 2026-04-09</sub>
+
+---
+
+[**`cnpjStripped`**](./src/regexen/countries/br/documents/cnpj.ts) — `✅ '12345678000195'` — Matches a Brazilian CNPJ number as 14 consecutive digits *(Enforces beginning and end of string)*
+
+```regex
+/^\d{14}$/
+```
+
+<details><summary>Examples</summary>
+
+| Input | Match |
+|:------|:-----:|
+| `12345678000195` | ✅ |
+| `12.345.678/0001-95` | ❌ |
 
 </details>
 
@@ -396,6 +472,25 @@ countries.br.documents.cpf.test('123.456.789-09'); // true
 |:------|:-----:|
 | `123.456.789-09` | ✅ |
 | `12345678909` | ❌ |
+
+</details>
+
+<sub>Last updated: 2026-04-08</sub>
+
+---
+
+[**`cpfStripped`**](./src/regexen/countries/br/documents/cpf.ts) — `✅ '12345678909'` — Matches a Brazilian CPF number as 11 consecutive digits *(Enforces beginning and end of string)*
+
+```regex
+/^\d{11}$/
+```
+
+<details><summary>Examples</summary>
+
+| Input | Match |
+|:------|:-----:|
+| `12345678909` | ✅ |
+| `123.456.789-09` | ❌ |
 
 </details>
 
@@ -498,6 +593,25 @@ countries.br.documents.cpf.test('123.456.789-09'); // true
 
 ---
 
+[**`pisPasepStripped`**](./src/regexen/countries/br/documents/pis-pasep.ts) — `✅ '12345678901'` — Matches a Brazilian PIS/PASEP number as 11 consecutive digits *(Enforces beginning and end of string)*
+
+```regex
+/^\d{11}$/
+```
+
+<details><summary>Examples</summary>
+
+| Input | Match |
+|:------|:-----:|
+| `12345678901` | ✅ |
+| `123.45678.90-1` | ❌ |
+
+</details>
+
+<sub>Last updated: 2026-04-09</sub>
+
+---
+
 [**`rgFormatted`**](./src/regexen/countries/br/documents/rg.ts) — `✅ '12.345.678-9'` — Matches a Brazilian RG number in the format X.XXX.XXX-X or XX.XXX.XXX-X where the last character can be a digit or X *(Enforces beginning and end of string)*
 
 ```regex
@@ -510,6 +624,25 @@ countries.br.documents.cpf.test('123.456.789-09'); // true
 |:------|:-----:|
 | `12.345.678-9` | ✅ |
 | `123456789` | ❌ |
+
+</details>
+
+<sub>Last updated: 2026-04-09</sub>
+
+---
+
+[**`rgStripped`**](./src/regexen/countries/br/documents/rg.ts) — `✅ '123456789'` — Matches a Brazilian RG number as 8 or 9 characters (7-8 digits followed by a digit or X) *(Enforces beginning and end of string)*
+
+```regex
+/^\d{7,8}[\dXx]$/
+```
+
+<details><summary>Examples</summary>
+
+| Input | Match |
+|:------|:-----:|
+| `123456789` | ✅ |
+| `12.345.678-9` | ❌ |
 
 </details>
 
@@ -555,6 +688,25 @@ countries.br.documents.cpf.test('123.456.789-09'); // true
 
 ---
 
+[**`susCardStripped`**](./src/regexen/countries/br/documents/sus-card.ts) — `✅ '123456789012345'` — Matches a Brazilian SUS card number as 15 consecutive digits *(Enforces beginning and end of string)*
+
+```regex
+/^\d{15}$/
+```
+
+<details><summary>Examples</summary>
+
+| Input | Match |
+|:------|:-----:|
+| `123456789012345` | ✅ |
+| `123 4567 8901 2345` | ❌ |
+
+</details>
+
+<sub>Last updated: 2026-04-09</sub>
+
+---
+
 [**`voterRegistrationFormatted`**](./src/regexen/countries/br/documents/voter-registration.ts) — `✅ '1234 5678 9012'` — Matches a Brazilian voter registration number in the format XXXX XXXX XXXX *(Enforces beginning and end of string)*
 
 ```regex
@@ -567,6 +719,25 @@ countries.br.documents.cpf.test('123.456.789-09'); // true
 |:------|:-----:|
 | `1234 5678 9012` | ✅ |
 | `123456789012` | ❌ |
+
+</details>
+
+<sub>Last updated: 2026-04-09</sub>
+
+---
+
+[**`voterRegistrationStripped`**](./src/regexen/countries/br/documents/voter-registration.ts) — `✅ '123456789012'` — Matches a Brazilian voter registration number as 12 consecutive digits *(Enforces beginning and end of string)*
+
+```regex
+/^\d{12}$/
+```
+
+<details><summary>Examples</summary>
+
+| Input | Match |
+|:------|:-----:|
+| `123456789012` | ✅ |
+| `1234 5678 9012` | ❌ |
 
 </details>
 
@@ -586,6 +757,25 @@ countries.br.documents.cpf.test('123.456.789-09'); // true
 |:------|:-----:|
 | `23793.38128 60000.000003 00000.000408 1 84340000019900` | ✅ |
 | `23793381286000000000300000000408184340000019900` | ❌ |
+
+</details>
+
+<sub>Last updated: 2026-04-09</sub>
+
+---
+
+[**`boletoStripped`**](./src/regexen/countries/br/financial/boleto.ts) — `✅ '23793381286000000000300000000408184340000019900'` — Matches a Brazilian boleto payment line as 47 consecutive digits *(Enforces beginning and end of string)*
+
+```regex
+/^\d{47}$/
+```
+
+<details><summary>Examples</summary>
+
+| Input | Match |
+|:------|:-----:|
+| `23793381286000000000300000000408184340000019900` | ✅ |
+| `23793.38128 60000.000003 00000.000408 1 84340000019900` | ❌ |
 
 </details>
 
@@ -1125,6 +1315,25 @@ countries.br.documents.cpf.test('123.456.789-09'); // true
 
 ---
 
+[**`cadasturStripped`**](./src/regexen/countries/br/government/cadastur.ts) — `✅ '12345678000190'` — Matches a Brazilian Cadastur number as 14 consecutive digits *(Enforces beginning and end of string)*
+
+```regex
+/^\d{14}$/
+```
+
+<details><summary>Examples</summary>
+
+| Input | Match |
+|:------|:-----:|
+| `12345678000190` | ✅ |
+| `12.345.678/0001-90` | ❌ |
+
+</details>
+
+<sub>Last updated: 2026-04-09</sub>
+
+---
+
 [**`caepf`**](./src/regexen/countries/br/government/caepf.ts) — `✅ '123.456.789-01/23'` — Matches a Brazilian CAEPF number in the format XXX.XXX.XXX-XX/XX *(Enforces beginning and end of string)*
 
 ```regex
@@ -1175,6 +1384,25 @@ countries.br.documents.cpf.test('123.456.789-09'); // true
 |:------|:-----:|
 | `0002028-80.2020.8.26.0100` | ✅ |
 | `00020288020208260100` | ❌ |
+
+</details>
+
+<sub>Last updated: 2026-04-09</sub>
+
+---
+
+[**`cnjProcessStripped`**](./src/regexen/countries/br/government/cnj-process.ts) — `✅ '00020288020208260100'` — Matches a Brazilian CNJ process number as 20 consecutive digits where the 16th digit is 4-8 *(Enforces beginning and end of string)*
+
+```regex
+/^\d{15}[4-8]\d{4}$/
+```
+
+<details><summary>Examples</summary>
+
+| Input | Match |
+|:------|:-----:|
+| `00020288020208260100` | ✅ |
+| `0002028-80.2020.8.26.0100` | ❌ |
 
 </details>
 
@@ -1308,6 +1536,25 @@ countries.br.documents.cpf.test('123.456.789-09'); // true
 |:------|:-----:|
 | `1234567-89` | ✅ |
 | `123456-89` | ❌ |
+
+</details>
+
+<sub>Last updated: 2026-04-09</sub>
+
+---
+
+[**`inscricaoEstadualBA8`**](./src/regexen/countries/br/government/inscricao-estadual/ba.ts) — `✅ '123456-78'` — Matches a Bahia (BA) Inscricao Estadual with 8 digits in the format XXXXXX-XX *(Enforces beginning and end of string)*
+
+```regex
+/^\d{6}-?\d{2}$/
+```
+
+<details><summary>Examples</summary>
+
+| Input | Match |
+|:------|:-----:|
+| `123456-78` | ✅ |
+| `1234567-89` | ❌ |
 
 </details>
 
@@ -1581,6 +1828,25 @@ countries.br.documents.cpf.test('123.456.789-09'); // true
 
 ---
 
+[**`inscricaoEstadualRN10`**](./src/regexen/countries/br/government/inscricao-estadual/rn.ts) — `✅ '20.1.234.567-8'` — Matches a Rio Grande do Norte (RN) Inscricao Estadual with 10 digits starting with 20 *(Enforces beginning and end of string)*
+
+```regex
+/^20\.?\d\.?\d{3}\.?\d{3}-?\d$/
+```
+
+<details><summary>Examples</summary>
+
+| Input | Match |
+|:------|:-----:|
+| `20.1.234.567-8` | ✅ |
+| `21.1.234.567-8` | ❌ |
+
+</details>
+
+<sub>Last updated: 2026-04-09</sub>
+
+---
+
 [**`inscricaoEstadualROOld`**](./src/regexen/countries/br/government/inscricao-estadual/ro.ts) — `✅ '123.45678-9'` — Matches a Rondonia (RO) Inscricao Estadual in the old format (before 01/08/2000) XXX.XXXXX-X *(Enforces beginning and end of string)*
 
 ```regex
@@ -1593,6 +1859,25 @@ countries.br.documents.cpf.test('123.456.789-09'); // true
 |:------|:-----:|
 | `123.45678-9` | ✅ |
 | `123.4567-9` | ❌ |
+
+</details>
+
+<sub>Last updated: 2026-04-09</sub>
+
+---
+
+[**`inscricaoEstadualRONew`**](./src/regexen/countries/br/government/inscricao-estadual/ro.ts) — `✅ '1234567890123-4'` — Matches a Rondonia (RO) Inscricao Estadual in the new format (after 01/08/2000) XXXXXXXXXXXXX-X *(Enforces beginning and end of string)*
+
+```regex
+/^\d{13}-?\d$/
+```
+
+<details><summary>Examples</summary>
+
+| Input | Match |
+|:------|:-----:|
+| `1234567890123-4` | ✅ |
+| `123456789012-4` | ❌ |
 
 </details>
 
@@ -1695,6 +1980,25 @@ countries.br.documents.cpf.test('123.456.789-09'); // true
 
 ---
 
+[**`inscricaoEstadualSPRural`**](./src/regexen/countries/br/government/inscricao-estadual/sp.ts) — `✅ 'P-12345678.9/012'` — Matches a Sao Paulo (SP) rural Inscricao Estadual in the format P-XXXXXXXX.X/XXX *(Enforces beginning and end of string)*
+
+```regex
+/^P-?\d{8}\.?\d\/?\d{3}$/
+```
+
+<details><summary>Examples</summary>
+
+| Input | Match |
+|:------|:-----:|
+| `P-12345678.9/012` | ✅ |
+| `12345678.9/012` | ❌ |
+
+</details>
+
+<sub>Last updated: 2026-04-09</sub>
+
+---
+
 [**`inscricaoEstadualTO`**](./src/regexen/countries/br/government/inscricao-estadual/to.ts) — `✅ '29011234567'` — Matches a Tocantins (TO) Inscricao Estadual starting with 29 followed by 01, 02, 03, or 99 *(Enforces beginning and end of string)*
 
 ```regex
@@ -1764,6 +2068,25 @@ countries.br.documents.cpf.test('123.456.789-09'); // true
 |:------|:-----:|
 | `1234.567890-1` | ✅ |
 | `12345678901` | ❌ |
+
+</details>
+
+<sub>Last updated: 2026-04-09</sub>
+
+---
+
+[**`renavamStripped`**](./src/regexen/countries/br/vehicles/renavam.ts) — `✅ '12345678901'` — Matches a Brazilian RENAVAM number as 11 consecutive digits *(Enforces beginning and end of string)*
+
+```regex
+/^\d{11}$/
+```
+
+<details><summary>Examples</summary>
+
+| Input | Match |
+|:------|:-----:|
+| `12345678901` | ✅ |
+| `1234.567890-1` | ❌ |
 
 </details>
 
