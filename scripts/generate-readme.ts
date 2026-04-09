@@ -154,8 +154,26 @@ function buildHtmlTable(categoryEntries: RegexEntry[]): string[] {
     lines.push(`  <td><b><a href="./${entry.filePath}"><code>${entry.name}</code></a></b></td>`);
     lines.push(`  <td>${entry.description}</td>`);
     lines.push('</tr>');
+
+    // Examples accordion
+    if (entry.examples.length > 0) {
+      lines.push('<tr>');
+      lines.push('  <td colspan="2">');
+      lines.push('    <details><summary>Examples</summary>');
+      lines.push('');
+      for (const example of entry.examples) {
+        const icon = example.matches ? ':white_check_mark:' : ':x:';
+        lines.push(`    ${icon} \`${example.value}\``);
+        lines.push('');
+      }
+      lines.push('    </details>');
+      lines.push('  </td>');
+      lines.push('</tr>');
+    }
+
+    // Regex pattern with syntax highlighting
     lines.push('<tr>');
-    lines.push(`  <td colspan="2"><code>${entry.pattern}</code></td>`);
+    lines.push(`  <td colspan="2"><pre lang="javascript"><code>${entry.pattern}</code></pre></td>`);
     lines.push('</tr>');
   }
 
