@@ -1,2 +1,2 @@
-export * as countries from './regexen/countries/index.ts';
-export * as datetime from './regexen/datetime/index.ts';
+export * as countries from './regexen/countries/_index.ts';
+export * as datetime from './regexen/datetime/_index.ts';

@@ -5,7 +5,7 @@ export default defineConfig({
     include: ['**/*.test.ts'],
     coverage: {
       include: ['src/regexen/**/*.ts'],
-      exclude: ['**/*.test.ts', '**/index.ts'],
+      exclude: ['**/*.test.ts', '**/_index.ts'],
       thresholds: { 100: true },
     },
   },
