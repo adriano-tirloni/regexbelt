@@ -1,13 +1,28 @@
 import { describe, expect, it } from 'vitest';
-import { invalidCpf, validCpf } from '../../../../fixtures/countries/br/documents/cpf.ts';
-import { cpf } from './cpf.ts';
+import {
+  invalidCpfFormatted,
+  invalidCpfStripped,
+  validCpfFormatted,
+  validCpfStripped,
+} from '../../../../fixtures/countries/br/documents/cpf.ts';
+import { cpfFormatted, cpfStripped } from './cpf.ts';
 
-describe('cpf', () => {
-  it.each(Object.entries(validCpf))('%s: %s', (_, value) => {
-    expect(cpf.test(value)).toBe(true);
+describe('cpfFormatted', () => {
+  it.each(Object.entries(validCpfFormatted))('%s: %s', (_, value) => {
+    expect(cpfFormatted.test(value)).toBe(true);
   });
 
-  it.each(Object.entries(invalidCpf))('%s: %s', (_, value) => {
-    expect(cpf.test(value)).toBe(false);
+  it.each(Object.entries(invalidCpfFormatted))('%s: %s', (_, value) => {
+    expect(cpfFormatted.test(value)).toBe(false);
+  });
+});
+
+describe('cpfStripped', () => {
+  it.each(Object.entries(validCpfStripped))('%s: %s', (_, value) => {
+    expect(cpfStripped.test(value)).toBe(true);
+  });
+
+  it.each(Object.entries(invalidCpfStripped))('%s: %s', (_, value) => {
+    expect(cpfStripped.test(value)).toBe(false);
   });
 });
