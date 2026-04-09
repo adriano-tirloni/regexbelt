@@ -18,6 +18,8 @@ export const invalidCepFormatted = {
   tooLong: '123456-789',
   /** Alphabetic characters instead of digits */
   alphabetic: 'abcde-fgh',
+  /** Invalid prefix — no postal region 00 exists */
+  zeroPrefix: '00000-000',
 };
 
 /** Valid stripped CEP numbers (8 consecutive digits) */
@@ -40,4 +42,6 @@ export const invalidCepStripped = {
   tooLong: '010010001',
   /** Alphabetic characters */
   alphabetic: 'abcdefgh',
+  /** Invalid prefix — no postal region 00 exists */
+  zeroPrefix: '00000000',
 };

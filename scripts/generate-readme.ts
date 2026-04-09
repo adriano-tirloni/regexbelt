@@ -256,31 +256,10 @@ for (const [category, categoryEntries] of sortedGroups) {
   }
 }
 
-// Static header
-const staticContent = `# regex-belt
+// Read template and inject generated content
+const templatePath = join(import.meta.dirname, 'readme-template.md');
+const template = readFileSync(templatePath, 'utf-8');
+const finalContent = template.replace('{{GENERATED_CONTENT}}', dynamicLines.join('\n'));
 
-A collection of commonly used regular expressions, organized by category.
-
-## Install
-
-\`\`\`bash
-npm install regex-belt
-\`\`\`
-
-## Usage
-
-\`\`\`ts
-import { datetime, countries } from 'regex-belt';
-
-datetime.dashedDate.test('2022-12-31'); // true
-countries.br.documents.cpf.test('123.456.789-09'); // true
-\`\`\`
-
-<!-- GENERATED:START - Do not edit below this line -->
-
-${dynamicLines.join('\n')}
-<!-- GENERATED:END -->
-`;
-
-writeFileSync(readmePath, staticContent);
+writeFileSync(readmePath, finalContent);
 console.log(`README.md generated with ${entries.length} patterns.`);

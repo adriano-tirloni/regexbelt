@@ -45,3 +45,31 @@ export const invalidPhoneStripped = {
   /** Alphabetic characters */
   alphabetic: 'abcdefghijk',
 };
+
+/** Valid international Brazilian phone numbers (digits only, format independent) */
+export const validPhoneInternational = {
+  /** Mobile with +55 country code */
+  mobileWithCountryCode: '+5519998665522',
+  /** Landline with +55 country code */
+  landlineWithCountryCode: '+552134567890',
+  /** Mobile with trunk prefix 0 */
+  mobileWithTrunk: '011965225544',
+  /** Landline with trunk prefix 0 */
+  landlineWithTrunk: '02134567890',
+  /** Mobile bare area code */
+  mobileBare: '11965225544',
+  /** Landline bare area code */
+  landlineBare: '2134567890',
+};
+
+/** Invalid international Brazilian phone strings */
+export const invalidPhoneInternational = {
+  /** Wrong country code */
+  wrongCountryCode: '+5419998665522',
+  /** Contains formatting characters */
+  formatted: '+55 (11) 91234-5678',
+  /** Too many digits after +55 */
+  tooLong: '+551199866552233',
+  /** Too few digits after +55 */
+  tooShort: '+551199866',
+};

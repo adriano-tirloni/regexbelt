@@ -28,11 +28,7 @@ jobs:
 
       - run: pnpm install --frozen-lockfile
 
-      - run: pnpm lint
-      - run: pnpm type-check
-      - run: pnpm test
-      - run: pnpm build
-      - run: pnpm readme
+      - run: pnpm check-all
 
       - name: Commit and push README if changed
         run: |

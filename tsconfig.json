@@ -10,7 +10,12 @@
     "allowImportingTsExtensions": true,
     "noEmit": true,
     "esModuleInterop": true,
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "paths": {
+      "@src/*": [
+        "./src/*"
+      ]
+    }
   },
   "include": [
     "src/**/*.ts"

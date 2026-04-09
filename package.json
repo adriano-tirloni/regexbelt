@@ -36,7 +36,8 @@
     "type-check": "tsc --noEmit",
     "test": "vitest run --coverage",
     "build": "tsdown",
-    "readme": "node --experimental-strip-types scripts/generate-readme.ts"
+    "readme": "node --experimental-strip-types scripts/generate-readme.ts",
+    "check-all": "pnpm lint && pnpm type-check && pnpm test && pnpm build && pnpm readme"
   },
   "devDependencies": {
     "@biomejs/biome": "^2.4.8",

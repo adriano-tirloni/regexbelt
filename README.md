@@ -1,20 +1,138 @@
+<div align="center">
+
 # regex-belt
 
-A collection of commonly used regular expressions, organized by category.
+**A curated collection of 100+ battle-tested regular expressions you'd otherwise copy-paste from Stack Overflow.**
+
+Dates, documents, phone numbers, bank accounts, license plates — validated, tested, and ready to import.
+
+[![npm version](https://img.shields.io/npm/v/regex-belt)](https://www.npmjs.com/package/regex-belt)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
+
+</div>
+
+---
+
+## Why regex-belt?
+
+- **No more regex roulette.** Every pattern is tested against real-world valid _and_ invalid inputs. No silent mismatches in production.
+- **Zero dependencies.** Pure regex literals — no runtime overhead, no transitive surprises.
+- **Tree-shakeable.** Import only what you need. Your bundler drops the rest.
+- **Self-documenting.** This README is auto-generated from JSDoc in the source — the docs are always in sync with the code.
+
+## What's inside
+
+| Category | Coverage | Examples |
+|:---------|:---------|:---------|
+| **Datetime** | ISO dates, UTC timestamps | `2022-12-31`, `2024-01-15T12:00:00Z` |
+| **Brazil / Documents** | CPF, CNPJ, RG, CNH, Passport, and 10+ more | `123.456.789-09`, `11.222.333/0001-81` |
+| **Brazil / Financial** | PIX keys, boletos, accounts for 23+ banks | Nubank, Itau, Bradesco, Caixa, ... |
+| **Brazil / Government** | IBGE, CNJ, SUFRAMA, IE for all 27 states | `3550308`, `AC`, `SP`, ..., `TO` |
+| **Brazil / Vehicles** | License plates, RENAVAM, VIN, ANTT | `ABC1D23`, Mercosul & legacy formats |
+| **Brazil / Contact** | Phone, CEP, Correios tracking | `+55 11 91234-5678`, `01001-000` |
+
+> More countries and categories are on the way — contributions are welcome!
 
 ## Install
 
 ```bash
 npm install regex-belt
+# or
+pnpm add regex-belt
+# or
+yarn add regex-belt
 ```
 
-## Usage
+## Quick start
 
 ```ts
 import { datetime, countries } from 'regex-belt';
 
+// Validate a date
 datetime.dashedDate.test('2022-12-31'); // true
+
+// Validate a Brazilian CPF
 countries.br.documents.cpf.test('123.456.789-09'); // true
+
+// Validate a phone number
+countries.br.contact.phone.test('+55 11 91234-5678'); // true
+```
+
+Every regex is a plain `RegExp` literal — use `.test()`, `.match()`, or `.exec()` as you normally would.
+
+## Contributing
+
+### Adding a new regex
+
+Each regex requires four things: the regex file, a test fixture, a test file, and barrel export wiring.
+
+#### 1. Create the regex file
+
+Add your file under `src/regexen/` following the existing directory structure (e.g. `src/regexen/countries/br/contact/cep.ts`).
+
+Every exported regex **must** have a JSDoc block with a description, optional notes wrapped in triple underscores, and `@example` tags with match indicators:
+
+```ts
+/**
+ * Matches a Brazilian CEP (postal code) in the format XXXXX-XXX
+ *
+ * ___Enforces beginning and end of string___
+ * @example ✅ '01001-000'
+ * @example ❌ '01001000'
+ */
+export const cepFormatted = /^(?:0[1-9]|[1-9]\d)\d{3}-\d{3}$/;
+```
+
+The `@example` format is strictly validated — each line must be `@example ✅|❌ <value>`.
+
+#### 2. Create test fixtures
+
+Add a matching fixture file under `src/fixtures/` mirroring the regex path (e.g. `src/fixtures/countries/br/contact/cep.ts`).
+
+Export objects with descriptive keys for valid and invalid cases:
+
+```ts
+export const validCepFormatted = {
+  saoPauloCentro: '01001-000',
+  standard: '12345-678',
+};
+
+export const invalidCepFormatted = {
+  noDash: '01001000',
+  tooShort: '0100-000',
+};
+```
+
+#### 3. Create the test file
+
+Add a `.test.ts` file next to the regex file. Tests use Vitest and iterate over fixture entries:
+
+```ts
+import { describe, expect, it } from 'vitest';
+import { validCepFormatted, invalidCepFormatted } from '@src/fixtures/countries/br/contact/cep.ts';
+import { cepFormatted } from './cep.ts';
+
+describe('cepFormatted', () => {
+  it.each(Object.entries(validCepFormatted))('%s: %s', (_, value) => {
+    expect(cepFormatted.test(value)).toBe(true);
+  });
+
+  it.each(Object.entries(invalidCepFormatted))('%s: %s', (_, value) => {
+    expect(cepFormatted.test(value)).toBe(false);
+  });
+});
+```
+
+#### 4. Wire up barrel exports
+
+Add an `export * from './your-file.ts'` line to the `_index.ts` in the same directory. If the directory is new, create a `_index.ts` and export it from the parent `_index.ts`.
+
+#### 5. Verify and generate
+
+```bash
+pnpm test          # run the test suite
+pnpm lint --write  # fix formatting
+pnpm readme        # regenerate this README
 ```
 
 <!-- GENERATED:START - Do not edit below this line -->
@@ -232,10 +350,10 @@ countries.br.documents.cpf.test('123.456.789-09'); // true
 
 ### Countries / BR / Contact
 
-[**`cepFormatted`**](./src/regexen/countries/br/contact/cep.ts) — `✅ '01001-000'` — Matches a Brazilian CEP (postal code) in the format XXXXX-XXX *(Enforces beginning and end of string)*
+[**`cepFormatted`**](./src/regexen/countries/br/contact/cep.ts) — `✅ '01001-000'` — Matches a Brazilian CEP (postal code) in the format XXXXX-XXX Rejects the `00` prefix as no postal region `00` exists (lowest CEP is `01001-000`) *(Enforces beginning and end of string)*
 
 ```regex
-/^\d{5}-\d{3}$/
+/^(?:0[1-9]|[1-9]\d)\d{3}-\d{3}$/
 ```
 
 <details><summary>Examples</summary>
@@ -244,6 +362,7 @@ countries.br.documents.cpf.test('123.456.789-09'); // true
 |:------|:-----:|
 | `01001-000` | ✅ |
 | `01001000` | ❌ |
+| `00000-000` | ❌ |
 
 </details>
 
@@ -251,10 +370,10 @@ countries.br.documents.cpf.test('123.456.789-09'); // true
 
 ---
 
-[**`cepStripped`**](./src/regexen/countries/br/contact/cep.ts) — `✅ '01001000'` — Matches a Brazilian CEP (postal code) as 8 consecutive digits *(Enforces beginning and end of string)*
+[**`cepStripped`**](./src/regexen/countries/br/contact/cep.ts) — `✅ '01001000'` — Matches a Brazilian CEP (postal code) as 8 consecutive digits Rejects the `00` prefix as no postal region `00` exists (lowest CEP is `01001000`) *(Enforces beginning and end of string)*
 
 ```regex
-/^\d{8}$/
+/^(?:0[1-9]|[1-9]\d)\d{6}$/
 ```
 
 <details><summary>Examples</summary>
@@ -263,6 +382,7 @@ countries.br.documents.cpf.test('123.456.789-09'); // true
 |:------|:-----:|
 | `01001000` | ✅ |
 | `01001-000` | ❌ |
+| `00000000` | ❌ |
 
 </details>
 
@@ -320,6 +440,25 @@ countries.br.documents.cpf.test('123.456.789-09'); // true
 |:------|:-----:|
 | `11912345678` | ✅ |
 | `+55 (11) 91234-5678` | ❌ |
+
+</details>
+
+<sub>Last updated: 2026-04-09</sub>
+
+---
+
+[**`phoneInternational`**](./src/regexen/countries/br/contact/phone.ts) — `✅ '+5519998665522'` — Matches a Brazilian phone number in international dialing formats (digits only) Supports +55 country code, domestic trunk prefix (0), or bare area code, followed by 2-digit area code and 8-digit landline or 9-digit mobile (starts with 9) *(Enforces beginning and end of string)*
+
+```regex
+/^(?:\+55|0)?\d{2}(?:9\d{8}|\d{8})$/
+```
+
+<details><summary>Examples</summary>
+
+| Input | Match |
+|:------|:-----:|
+| `+5519998665522` | ✅ |
+| `+5419998665522` | ❌ |
 
 </details>
 
