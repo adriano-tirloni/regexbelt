@@ -1,8 +1,9 @@
 import { readdirSync, readFileSync, statSync, writeFileSync } from 'node:fs';
 import { join, relative } from 'node:path';
 
-const regexenDir = join(import.meta.dirname, '..', 'src', 'regexen');
-const readmePath = join(import.meta.dirname, '..', 'README.md');
+const projectRoot = join(import.meta.dirname, '..');
+const regexenDir = join(projectRoot, 'src', 'regexen');
+const readmePath = join(projectRoot, 'README.md');
 
 interface ExampleEntry {
   value: string;
@@ -17,6 +18,7 @@ interface RegexEntry {
   pattern: string;
   examples: ExampleEntry[];
   category: string;
+  filePath: string;
 }
 
 /**
@@ -100,6 +102,7 @@ function parseRegexFile(filePath: string): RegexEntry | null {
     pattern: exportMatch[2],
     examples,
     category,
+    filePath: relative(projectRoot, filePath),
   };
 }
 
@@ -145,11 +148,10 @@ function buildHtmlTable(categoryEntries: RegexEntry[]): string[] {
   const lines: string[] = [];
 
   lines.push('<table>');
-  lines.push('<tr><th>Name</th><th>Description</th></tr>');
 
   for (const entry of categoryEntries) {
     lines.push('<tr>');
-    lines.push(`  <td><code>${entry.name}</code></td>`);
+    lines.push(`  <td><b><a href="./${entry.filePath}"><code>${entry.name}</code></a></b></td>`);
     lines.push(`  <td>${entry.description}</td>`);
     lines.push('</tr>');
     lines.push('<tr>');
