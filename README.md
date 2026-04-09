@@ -7,6 +7,8 @@
 Dates, documents, phone numbers, bank accounts, license plates — validated, tested, and ready to import.
 
 [![npm version](https://img.shields.io/npm/v/regex-belt)](https://www.npmjs.com/package/regex-belt)
+[![tests](https://img.shields.io/github/actions/workflow/status/adriano-tirloni/regex-belt/release.yml?branch=master&label=tests)](https://github.com/adriano-tirloni/regex-belt/actions/workflows/release.yml)
+[![coverage](https://img.shields.io/badge/coverage-100%25-brightgreen)](#)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 
 </div>
@@ -191,6 +193,630 @@ That's it
 </details>
 
 <sub>Last updated: 2026-04-08</sub>
+
+---
+
+[**`iso8601Standard`**](./src/regexen/datetime/iso8601.ts) — `✅ '2022-12-31T23:59:59.999Z'` — Matches an ISO-8601 datetime with optional timezone Format: YYYY-MM-DDTHH:mm:ss[.mmm][Z|±HH:mm] *(Enforces beginning and end of string)*
+
+```regex
+/^\d{4}-(?:0[1-9]|1[0-2])-(?:0[1-9]|[12]\d|3[01])T(?:[01]\d|2[0-3]):[0-5]\d:[0-5]\d(?:\.\d{1,3})?(?:Z|[+-](?:[01]\d|2[0-3]):[0-5]\d)?$/
+```
+
+<details><summary>Examples</summary>
+
+| Input | Match |
+|:------|:-----:|
+| `2022-12-31T23:59:59.999Z` | ✅ |
+| `2022-12-31T23:59:59+05:30` | ✅ |
+| `2022-12-31T23:59:59` | ✅ |
+| `2022-12-31` | ❌ |
+| `not-a-date` | ❌ |
+
+</details>
+
+---
+
+[**`iso8601DatetimeWithoutTz`**](./src/regexen/datetime/iso8601.ts) — `✅ '2022-12-31T23:59:59'` — Matches an ISO-8601 datetime without timezone Format: YYYY-MM-DDTHH:mm:ss[.mmm] *(Enforces beginning and end of string)*
+
+```regex
+/^\d{4}-(?:0[1-9]|1[0-2])-(?:0[1-9]|[12]\d|3[01])T(?:[01]\d|2[0-3]):[0-5]\d:[0-5]\d(?:\.\d{1,3})?$/
+```
+
+<details><summary>Examples</summary>
+
+| Input | Match |
+|:------|:-----:|
+| `2022-12-31T23:59:59` | ✅ |
+| `2022-12-31T23:59:59.999` | ✅ |
+| `2022-12-31T23:59:59Z` | ❌ |
+| `2022-12-31T23:59:59+05:30` | ❌ |
+
+</details>
+
+---
+
+[**`iso8601DatetimeWithTz`**](./src/regexen/datetime/iso8601.ts) — `✅ '2022-12-31T23:59:59Z'` — Matches an ISO-8601 datetime with required timezone Format: YYYY-MM-DDTHH:mm:ss[.mmm](Z|±HH:mm) *(Enforces beginning and end of string)*
+
+```regex
+/^\d{4}-(?:0[1-9]|1[0-2])-(?:0[1-9]|[12]\d|3[01])T(?:[01]\d|2[0-3]):[0-5]\d:[0-5]\d(?:\.\d{1,3})?(?:Z|[+-](?:[01]\d|2[0-3]):[0-5]\d)$/
+```
+
+<details><summary>Examples</summary>
+
+| Input | Match |
+|:------|:-----:|
+| `2022-12-31T23:59:59Z` | ✅ |
+| `2022-12-31T23:59:59.999+05:30` | ✅ |
+| `2022-12-31T23:59:59-03:00` | ✅ |
+| `2022-12-31T23:59:59` | ❌ |
+| `2022-12-31` | ❌ |
+
+</details>
+
+---
+
+[**`time12hhmmss`**](./src/regexen/datetime/time-12h.ts) — `✅ '12:59:59 PM'` — Matches a 12-hour time in HH:MM:SS AM/PM format *(Enforces beginning and end of string)*
+
+```regex
+/^(?:0?[1-9]|1[0-2]):[0-5]\d:[0-5]\d\s?[AaPp][Mm]$/
+```
+
+<details><summary>Examples</summary>
+
+| Input | Match |
+|:------|:-----:|
+| `12:59:59 PM` | ✅ |
+| `01:00:00 AM` | ✅ |
+| `00:00:00 AM` | ❌ |
+| `13:00:00 PM` | ❌ |
+
+</details>
+
+---
+
+[**`time12hhmm`**](./src/regexen/datetime/time-12h.ts) — `✅ '12:59 PM'` — Matches a 12-hour time in HH:MM AM/PM format *(Enforces beginning and end of string)*
+
+```regex
+/^(?:0?[1-9]|1[0-2]):[0-5]\d\s?[AaPp][Mm]$/
+```
+
+<details><summary>Examples</summary>
+
+| Input | Match |
+|:------|:-----:|
+| `12:59 PM` | ✅ |
+| `01:00 AM` | ✅ |
+| `00:00 AM` | ❌ |
+| `13:00 PM` | ❌ |
+
+</details>
+
+---
+
+[**`time12hh`**](./src/regexen/datetime/time-12h.ts) — `✅ '12 PM'` — Matches a 12-hour hour in HH AM/PM format *(Enforces beginning and end of string)*
+
+```regex
+/^(?:0?[1-9]|1[0-2])\s?[AaPp][Mm]$/
+```
+
+<details><summary>Examples</summary>
+
+| Input | Match |
+|:------|:-----:|
+| `12 PM` | ✅ |
+| `1 AM` | ✅ |
+| `0 AM` | ❌ |
+| `13 PM` | ❌ |
+
+</details>
+
+---
+
+[**`time24hhmmss`**](./src/regexen/datetime/time-24h.ts) — `✅ '23:59:59'` — Matches a 24-hour time in HH:MM:SS format *(Enforces beginning and end of string)*
+
+```regex
+/^(?:[01]\d|2[0-3]):[0-5]\d:[0-5]\d$/
+```
+
+<details><summary>Examples</summary>
+
+| Input | Match |
+|:------|:-----:|
+| `23:59:59` | ✅ |
+| `00:00:00` | ✅ |
+| `24:00:00` | ❌ |
+| `23:59` | ❌ |
+
+</details>
+
+---
+
+[**`time24hhmm`**](./src/regexen/datetime/time-24h.ts) — `✅ '23:59'` — Matches a 24-hour time in HH:MM format *(Enforces beginning and end of string)*
+
+```regex
+/^(?:[01]\d|2[0-3]):[0-5]\d$/
+```
+
+<details><summary>Examples</summary>
+
+| Input | Match |
+|:------|:-----:|
+| `23:59` | ✅ |
+| `00:00` | ✅ |
+| `24:00` | ❌ |
+| `23:59:59` | ❌ |
+
+</details>
+
+---
+
+[**`time24hh`**](./src/regexen/datetime/time-24h.ts) — `✅ '23'` — Matches a 24-hour hour in HH format *(Enforces beginning and end of string)*
+
+```regex
+/^(?:[01]\d|2[0-3])$/
+```
+
+<details><summary>Examples</summary>
+
+| Input | Match |
+|:------|:-----:|
+| `23` | ✅ |
+| `00` | ✅ |
+| `24` | ❌ |
+| `5` | ❌ |
+
+</details>
+
+### Math
+
+[**`positiveDecimal`**](./src/regexen/math/decimal.ts) — `✅ '1.5'` — Matches a positive decimal number (no leading zeros except before the dot) *(Enforces beginning and end of string)*
+
+```regex
+/^(?:0|[1-9]\d*)\.\d+$/
+```
+
+<details><summary>Examples</summary>
+
+| Input | Match |
+|:------|:-----:|
+| `1.5` | ✅ |
+| `0.123` | ✅ |
+| `123.456` | ✅ |
+| `-1.5` | ❌ |
+| `1` | ❌ |
+
+</details>
+
+---
+
+[**`negativeDecimal`**](./src/regexen/math/decimal.ts) — `✅ '-1.5'` — Matches a negative decimal number (no leading zeros except before the dot) *(Enforces beginning and end of string)*
+
+```regex
+/^-(?:0|[1-9]\d*)\.\d+$/
+```
+
+<details><summary>Examples</summary>
+
+| Input | Match |
+|:------|:-----:|
+| `-1.5` | ✅ |
+| `-0.123` | ✅ |
+| `1.5` | ❌ |
+| `-1` | ❌ |
+
+</details>
+
+---
+
+[**`decimal`**](./src/regexen/math/decimal.ts) — `✅ '1.5'` — Matches any decimal number including negative (no leading zeros except before the dot) *(Enforces beginning and end of string)*
+
+```regex
+/^-?(?:0|[1-9]\d*)\.\d+$/
+```
+
+<details><summary>Examples</summary>
+
+| Input | Match |
+|:------|:-----:|
+| `1.5` | ✅ |
+| `-0.123` | ✅ |
+| `0.0` | ✅ |
+| `1` | ❌ |
+| `-1` | ❌ |
+
+</details>
+
+---
+
+[**`positiveInteger`**](./src/regexen/math/integer.ts) — `✅ '1'` — Matches a positive integer (greater than zero, no leading zeros) *(Enforces beginning and end of string)*
+
+```regex
+/^[1-9]\d*$/
+```
+
+<details><summary>Examples</summary>
+
+| Input | Match |
+|:------|:-----:|
+| `1` | ✅ |
+| `123` | ✅ |
+| `0` | ❌ |
+| `-1` | ❌ |
+| `01` | ❌ |
+
+</details>
+
+---
+
+[**`negativeInteger`**](./src/regexen/math/integer.ts) — `✅ '-1'` — Matches a negative integer (less than zero, no leading zeros) *(Enforces beginning and end of string)*
+
+```regex
+/^-[1-9]\d*$/
+```
+
+<details><summary>Examples</summary>
+
+| Input | Match |
+|:------|:-----:|
+| `-1` | ✅ |
+| `-123` | ✅ |
+| `0` | ❌ |
+| `1` | ❌ |
+| `-01` | ❌ |
+
+</details>
+
+---
+
+[**`integer`**](./src/regexen/math/integer.ts) — `✅ '0'` — Matches any integer including zero (no leading zeros except for zero itself) *(Enforces beginning and end of string)*
+
+```regex
+/^(?:0|-?[1-9]\d*)$/
+```
+
+<details><summary>Examples</summary>
+
+| Input | Match |
+|:------|:-----:|
+| `0` | ✅ |
+| `123` | ✅ |
+| `-456` | ✅ |
+| `01` | ❌ |
+| `1.5` | ❌ |
+
+</details>
+
+### Network / Routing
+
+[**`ipv4`**](./src/regexen/network/routing/ipv4.ts) — `✅ '192.168.1.1'` — Matches a valid IPv4 address (four octets 0-255 separated by dots) *(Enforces beginning and end of string)*
+
+```regex
+/^(?:(?:25[0-5]|2[0-4]\d|1\d{2}|[1-9]?\d)\.){3}(?:25[0-5]|2[0-4]\d|1\d{2}|[1-9]?\d)$/
+```
+
+<details><summary>Examples</summary>
+
+| Input | Match |
+|:------|:-----:|
+| `192.168.1.1` | ✅ |
+| `0.0.0.0` | ✅ |
+| `255.255.255.255` | ✅ |
+| `256.0.0.1` | ❌ |
+| `192.168.1` | ❌ |
+
+</details>
+
+---
+
+[**`ipv6`**](./src/regexen/network/routing/ipv6.ts) — `✅ '2001:0db8:85a3:0000:0000:8a2e:0370:7334'` — Matches a valid IPv6 address including compressed and mixed notation Supports full addresses, :: compression, and embedded IPv4 *(Enforces beginning and end of string)*
+
+```regex
+/^(?:(?:[0-9a-fA-F]{1,4}:){7}[0-9a-fA-F]{1,4}|(?:[0-9a-fA-F]{1,4}:){1,7}:|(?:[0-9a-fA-F]{1,4}:){1,6}:[0-9a-fA-F]{1,4}|(?:[0-9a-fA-F]{1,4}:){1,5}(?::[0-9a-fA-F]{1,4}){1,2}|(?:[0-9a-fA-F]{1,4}:){1,4}(?::[0-9a-fA-F]{1,4}){1,3}|(?:[0-9a-fA-F]{1,4}:){1,3}(?::[0-9a-fA-F]{1,4}){1,4}|(?:[0-9a-fA-F]{1,4}:){1,2}(?::[0-9a-fA-F]{1,4}){1,5}|[0-9a-fA-F]{1,4}:(?::[0-9a-fA-F]{1,4}){1,6}|:(?:(?::[0-9a-fA-F]{1,4}){1,7}|:)|::(?:ffff(?::0{1,4})?:)?(?:(?:25[0-5]|2[0-4]\d|1\d{2}|[1-9]?\d)\.){3}(?:25[0-5]|2[0-4]\d|1\d{2}|[1-9]?\d)|(?:[0-9a-fA-F]{1,4}:){1,4}:(?:(?:25[0-5]|2[0-4]\d|1\d{2}|[1-9]?\d)\.){3}(?:25[0-5]|2[0-4]\d|1\d{2}|[1-9]?\d))$/
+```
+
+<details><summary>Examples</summary>
+
+| Input | Match |
+|:------|:-----:|
+| `2001:0db8:85a3:0000:0000:8a2e:0370:7334` | ✅ |
+| `::1` | ✅ |
+| `fe80::1` | ✅ |
+| `::ffff:192.168.1.1` | ✅ |
+| `2001:db8::85a3::7334` | ❌ |
+| `192.168.1.1` | ❌ |
+
+</details>
+
+### Network / URL
+
+[**`urlCommonPublicDomainOnly`**](./src/regexen/network/url/common-public-domain-only.ts) — `✅ 'https://example.com'` — Matches a public HTTP/HTTPS URL with only the domain Format: scheme://host *(Enforces beginning and end of string)*
+
+```regex
+/^https?:\/\/(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?\.)+[a-zA-Z]{2,}$/
+```
+
+<details><summary>Examples</summary>
+
+| Input | Match |
+|:------|:-----:|
+| `https://example.com` | ✅ |
+| `http://sub.example.com` | ✅ |
+| `https://example.com/path` | ❌ |
+| `https://example.com:8080` | ❌ |
+| `ftp://files.example.com` | ❌ |
+
+</details>
+
+---
+
+[**`urlCommonPublic`**](./src/regexen/network/url/common-public.ts) — `✅ 'https://example.com/path?q=1'` — Matches a common public HTTP/HTTPS URL without credentials Format: scheme://host[:port][/path][?query][#fragment] *(Enforces beginning and end of string)*
+
+```regex
+/^https?:\/\/(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?\.)+[a-zA-Z]{2,}(?::\d{1,5})?(?:\/[^\s?#]*)?(?:\?[^\s#]*)?(?:#[^\s]*)?$/
+```
+
+<details><summary>Examples</summary>
+
+| Input | Match |
+|:------|:-----:|
+| `https://example.com/path?q=1` | ✅ |
+| `http://example.com:3000` | ✅ |
+| `https://user:pass@example.com` | ❌ |
+| `ftp://files.example.com` | ❌ |
+
+</details>
+
+---
+
+[**`urlFtp`**](./src/regexen/network/url/ftp.ts) — `✅ 'ftp://files.example.com'` — Matches an FTP URL with all optional components Format: ftp://[credentials@]host[:port][/path][?query][#fragment] *(Enforces beginning and end of string)*
+
+```regex
+/^ftp:\/\/(?:(?:[a-zA-Z0-9._~!{{GENERATED_CONTENT}}'()*+,;=:%-]+@))?(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?\.)+[a-zA-Z]{2,}(?::\d{1,5})?(?:\/[^\s?#]*)?(?:\?[^\s#]*)?(?:#[^\s]*)?$/
+```
+
+<details><summary>Examples</summary>
+
+| Input | Match |
+|:------|:-----:|
+| `ftp://files.example.com` | ✅ |
+| `ftp://user:pass@ftp.example.com:21/pub` | ✅ |
+| `https://example.com` | ❌ |
+| `http://example.com` | ❌ |
+
+</details>
+
+---
+
+[**`urlFull`**](./src/regexen/network/url/full.ts) — `✅ 'https://user:pass@example.com:8080/path?q=1#frag'` — Matches a full URL with all optional components Format: scheme://[credentials@]host[:port][/path][?query][#fragment] *(Enforces beginning and end of string)*
+
+```regex
+/^(?:https?|ftp):\/\/(?:(?:[a-zA-Z0-9._~!{{GENERATED_CONTENT}}'()*+,;=:%-]+@))?(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?\.)+[a-zA-Z]{2,}(?::\d{1,5})?(?:\/[^\s?#]*)?(?:\?[^\s#]*)?(?:#[^\s]*)?$/
+```
+
+<details><summary>Examples</summary>
+
+| Input | Match |
+|:------|:-----:|
+| `https://user:pass@example.com:8080/path?q=1#frag` | ✅ |
+| `http://example.com` | ✅ |
+| `ftp://files.example.com/pub` | ✅ |
+| `example.com` | ❌ |
+| `//example.com` | ❌ |
+
+</details>
+
+---
+
+[**`urlHttp`**](./src/regexen/network/url/http.ts) — `✅ 'http://example.com'` — Matches an HTTP URL with all optional components Format: http://[credentials@]host[:port][/path][?query][#fragment] *(Enforces beginning and end of string)*
+
+```regex
+/^http:\/\/(?:(?:[a-zA-Z0-9._~!{{GENERATED_CONTENT}}'()*+,;=:%-]+@))?(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?\.)+[a-zA-Z]{2,}(?::\d{1,5})?(?:\/[^\s?#]*)?(?:\?[^\s#]*)?(?:#[^\s]*)?$/
+```
+
+<details><summary>Examples</summary>
+
+| Input | Match |
+|:------|:-----:|
+| `http://example.com` | ✅ |
+| `http://user:pass@example.com:8080/path` | ✅ |
+| `https://example.com` | ❌ |
+| `ftp://files.example.com` | ❌ |
+
+</details>
+
+---
+
+[**`urlHttpsDomainOnly`**](./src/regexen/network/url/https-domain-only.ts) — `✅ 'https://example.com'` — Matches an HTTPS URL with only the domain Format: https://host *(Enforces beginning and end of string)*
+
+```regex
+/^https:\/\/(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?\.)+[a-zA-Z]{2,}$/
+```
+
+<details><summary>Examples</summary>
+
+| Input | Match |
+|:------|:-----:|
+| `https://example.com` | ✅ |
+| `https://sub.example.com` | ✅ |
+| `https://example.com/path` | ❌ |
+| `http://example.com` | ❌ |
+| `https://example.com:443` | ❌ |
+
+</details>
+
+---
+
+[**`urlHttps`**](./src/regexen/network/url/https.ts) — `✅ 'https://example.com'` — Matches an HTTPS URL with all optional components Format: https://[credentials@]host[:port][/path][?query][#fragment] *(Enforces beginning and end of string)*
+
+```regex
+/^https:\/\/(?:(?:[a-zA-Z0-9._~!{{GENERATED_CONTENT}}'()*+,;=:%-]+@))?(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?\.)+[a-zA-Z]{2,}(?::\d{1,5})?(?:\/[^\s?#]*)?(?:\?[^\s#]*)?(?:#[^\s]*)?$/
+```
+
+<details><summary>Examples</summary>
+
+| Input | Match |
+|:------|:-----:|
+| `https://example.com` | ✅ |
+| `https://user:pass@example.com:443/path?q=1#frag` | ✅ |
+| `http://example.com` | ❌ |
+| `ftp://files.example.com` | ❌ |
+
+</details>
+
+---
+
+[**`urlNoCredentials`**](./src/regexen/network/url/no-credentials.ts) — `✅ 'https://example.com:8080/path?q=1'` — Matches a URL without credentials Format: scheme://host[:port][/path][?query][#fragment] *(Enforces beginning and end of string)*
+
+```regex
+/^(?:https?|ftp):\/\/(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?\.)+[a-zA-Z]{2,}(?::\d{1,5})?(?:\/[^\s?#]*)?(?:\?[^\s#]*)?(?:#[^\s]*)?$/
+```
+
+<details><summary>Examples</summary>
+
+| Input | Match |
+|:------|:-----:|
+| `https://example.com:8080/path?q=1` | ✅ |
+| `http://example.com` | ✅ |
+| `https://user:pass@example.com` | ❌ |
+
+</details>
+
+---
+
+[**`urlNoPathAndQuery`**](./src/regexen/network/url/no-path-and-query.ts) — `✅ 'https://example.com'` — Matches a URL without path, query, or fragment components Format: scheme://[credentials@]host[:port] *(Enforces beginning and end of string)*
+
+```regex
+/^(?:https?|ftp):\/\/(?:(?:[a-zA-Z0-9._~!{{GENERATED_CONTENT}}'()*+,;=:%-]+@))?(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?\.)+[a-zA-Z]{2,}(?::\d{1,5})?$/
+```
+
+<details><summary>Examples</summary>
+
+| Input | Match |
+|:------|:-----:|
+| `https://example.com` | ✅ |
+| `https://user:pass@example.com:8080` | ✅ |
+| `https://example.com/path` | ❌ |
+| `https://example.com?q=1` | ❌ |
+
+</details>
+
+---
+
+[**`urlNoPort`**](./src/regexen/network/url/no-port.ts) — `✅ 'https://user:pass@example.com/path'` — Matches a URL without a port component Format: scheme://[credentials@]host[/path][?query][#fragment] *(Enforces beginning and end of string)*
+
+```regex
+/^(?:https?|ftp):\/\/(?:(?:[a-zA-Z0-9._~!{{GENERATED_CONTENT}}'()*+,;=:%-]+@))?(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?\.)+[a-zA-Z]{2,}(?:\/[^\s?#]*)?(?:\?[^\s#]*)?(?:#[^\s]*)?$/
+```
+
+<details><summary>Examples</summary>
+
+| Input | Match |
+|:------|:-----:|
+| `https://user:pass@example.com/path` | ✅ |
+| `http://example.com` | ✅ |
+| `https://example.com:8080` | ❌ |
+
+</details>
+
+---
+
+[**`urlSlug`**](./src/regexen/network/url/slug.ts) — `✅ 'my-page-title'` — Matches a valid URL slug (lowercase alphanumeric with hyphens) *(Enforces beginning and end of string)*
+
+```regex
+/^[a-z0-9-]+$/
+```
+
+<details><summary>Examples</summary>
+
+| Input | Match |
+|:------|:-----:|
+| `my-page-title` | ✅ |
+| `post123` | ✅ |
+| `a` | ✅ |
+| `My Page` | ❌ |
+| `UPPERCASE` | ❌ |
+| `has_underscore` | ❌ |
+
+</details>
+
+### Vendors / Youtube
+
+[**`youtubeChannelId`**](./src/regexen/vendors/youtube/channel-id.ts) — `✅ 'https://www.youtube.com/channel/UC1234567890abcdefghijkl'` — Matches a YouTube channel URL and captures the 22-character channel ID Channel URLs use the /channel/UC prefix followed by a 22-character ID *(Does not enforce beginning and end of string)*
+
+```regex
+/https?:\/\/(?:www\.)?youtube\.com\/channel\/UC[-_a-zA-Z0-9]{22}/i
+```
+
+<details><summary>Examples</summary>
+
+| Input | Match |
+|:------|:-----:|
+| `https://www.youtube.com/channel/UC1234567890abcdefghijkl` | ✅ |
+| `http://youtube.com/channel/UC1234567890abcdefghijkl` | ✅ |
+| `https://youtube.com/user/somename` | ❌ |
+| `https://example.com` | ❌ |
+
+</details>
+
+---
+
+[**`youtubeVideoId`**](./src/regexen/vendors/youtube/video-id.ts) — `✅ 'https://www.youtube.com/watch?v=dQw4w9WgXcQ'` — Matches a YouTube video URL and captures the 11-character video ID Supports youtu.be short links and youtube.com/watch URLs with localized subdomains *(Does not enforce beginning and end of string (matches within longer text))*
+
+```regex
+/https?:\/\/(?:youtu\.be\/|(?:[a-z]{2,3}\.)?youtube\.com\/watch(?:\?|#!)v=)([\w-]{11})/i
+```
+
+<details><summary>Examples</summary>
+
+| Input | Match |
+|:------|:-----:|
+| `https://www.youtube.com/watch?v=dQw4w9WgXcQ` | ✅ |
+| `https://youtu.be/dQw4w9WgXcQ` | ✅ |
+| `http://de.youtube.com/watch?v=dQw4w9WgXcQ` | ✅ |
+| `https://example.com` | ❌ |
+| `https://youtube.com/channel/UCxxxxxx` | ❌ |
+
+</details>
+
+### WEB / Misc
+
+[**`email`**](./src/regexen/web/misc/email.ts) — `✅ 'user@example.com'` — Matches a basic email address (local part @ domain) Verifies the presence of @ with non-empty local and domain parts. For strict RFC 5322 validation, use a dedicated email validation library. *(Enforces beginning and end of string)*
+
+```regex
+/^.+@.+\..+$/
+```
+
+<details><summary>Examples</summary>
+
+| Input | Match |
+|:------|:-----:|
+| `user@example.com` | ✅ |
+| `name+tag@sub.domain.org` | ✅ |
+| `@example.com` | ❌ |
+| `user@` | ❌ |
+| `plaintext` | ❌ |
+
+</details>
+
+### WEB / Styles
+
+[**`hexColor`**](./src/regexen/web/styles/hex-color.ts) — `✅ '#ff0000'` — Matches an RGB hex color value with optional # prefix Supports both 3-digit and 6-digit hex notation *(Enforces beginning and end of string)*
+
+```regex
+/^#?(?:[a-fA-F0-9]{6}|[a-fA-F0-9]{3})$/
+```
+
+<details><summary>Examples</summary>
+
+| Input | Match |
+|:------|:-----:|
+| `#ff0000` | ✅ |
+| `#FFF` | ✅ |
+| `aabbcc` | ✅ |
+| `#ff00` | ❌ |
+| `#gggggg` | ❌ |
+
+</details>
 
 ### Countries / BR / Codes
 

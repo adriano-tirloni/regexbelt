@@ -121,32 +121,52 @@ function parseJsdocBlock(jsdocBlock: string, filePath: string) {
 /**
  * Parses a regex source file to extract JSDoc metadata and regex patterns.
  * Supports files with one or more exported regexes, each preceded by a JSDoc block.
+ * For dynamically-constructed regexes (e.g. via helper functions), the module is
+ * imported at runtime to resolve the actual pattern.
  */
-function parseRegexFile(filePath: string): RegexEntry[] {
+async function parseRegexFile(filePath: string): Promise<RegexEntry[]> {
   const content = readFileSync(filePath, 'utf-8');
   const category = relative(regexenDir, filePath).split('/').slice(0, -1).join(' / ');
   const relPath = relative(projectRoot, filePath);
 
-  const tuples = [
+  //Try matching literal regex exports: export const name = /pattern/flags;
+  const literalTuples = [
     ...content.matchAll(/\/\*\*([\s\S]*?)\*\/\s*export const (\w+)\s*=\s*(\/.*\/[gimsuy]*);/g),
   ];
 
-  if (tuples.length === 0) {
+  if (literalTuples.length > 0) {
+    return literalTuples.map(match => {
+      const { description, notes, examples } = parseJsdocBlock(match[1], filePath);
+
+      return {
+        name: match[2],
+        description,
+        notes,
+        pattern: match[3],
+        examples,
+        category,
+        filePath: relPath,
+      };
+    });
+  }
+
+  //Fallback: match JSDoc + export const with any value (dynamic construction)
+  const dynamicTuples = [...content.matchAll(/\/\*\*([\s\S]*?)\*\/\s*export const (\w+)\b[^;]*;/g)];
+
+  if (dynamicTuples.length === 0) {
     throw new Error(`No JSDoc + export tuples found in ${filePath}`);
   }
 
-  return tuples.map(match => {
-    const { description, notes, examples } = parseJsdocBlock(match[1], filePath);
+  //Dynamically import the module to resolve the actual regex patterns
+  const mod = await import(filePath);
 
-    return {
-      name: match[2],
-      description,
-      notes,
-      pattern: match[3],
-      examples,
-      category,
-      filePath: relPath,
-    };
+  return dynamicTuples.map(match => {
+    const { description, notes, examples } = parseJsdocBlock(match[1], filePath);
+    const name = match[2];
+    const regex: RegExp = mod[name];
+    const pattern = `/${regex.source}/${regex.flags}`;
+
+    return { name, description, notes, pattern, examples, category, filePath: relPath };
   });
 }
 
@@ -182,8 +202,8 @@ function formatCategoryTitle(category: string): string {
 // Collect and parse all regex files
 const lastUpdatedMap = buildLastUpdatedMap();
 const files = collectRegexFiles(regexenDir);
-const entries = files
-  .flatMap(parseRegexFile)
+const entries = (await Promise.all(files.map(parseRegexFile)))
+  .flat()
   .map(entry => ({ ...entry, lastUpdated: lastUpdatedMap.get(entry.filePath) ?? '' }));
 
 const grouped = groupByCategory(entries);

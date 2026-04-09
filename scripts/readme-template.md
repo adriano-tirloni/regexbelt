@@ -7,6 +7,8 @@
 Dates, documents, phone numbers, bank accounts, license plates — validated, tested, and ready to import.
 
 [![npm version](https://img.shields.io/npm/v/regex-belt)](https://www.npmjs.com/package/regex-belt)
+[![tests](https://img.shields.io/github/actions/workflow/status/adriano-tirloni/regex-belt/release.yml?branch=master&label=tests)](https://github.com/adriano-tirloni/regex-belt/actions/workflows/release.yml)
+[![coverage](https://img.shields.io/badge/coverage-100%25-brightgreen)](#)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 
 </div>
