@@ -37,7 +37,7 @@ countries.br.documents.cpf.test('123.456.789-09'); // true
 
 </details>
 
-*Last updated: 2026-04-08*
+<sub>Last updated: 2026-04-08</sub>
 
 ---
 
@@ -57,7 +57,7 @@ countries.br.documents.cpf.test('123.456.789-09'); // true
 
 </details>
 
-*Last updated: 2026-04-08*
+<sub>Last updated: 2026-04-08</sub>
 
 ---
 
@@ -76,7 +76,7 @@ countries.br.documents.cpf.test('123.456.789-09'); // true
 
 </details>
 
-*Last updated: 2026-04-08*
+<sub>Last updated: 2026-04-08</sub>
 
 ### Countries / BR / Documents
 
@@ -95,6 +95,6 @@ countries.br.documents.cpf.test('123.456.789-09'); // true
 
 </details>
 
-*Last updated: 2026-04-08*
+<sub>Last updated: 2026-04-08</sub>
 
 <!-- GENERATED:END -->

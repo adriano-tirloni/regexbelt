@@ -218,7 +218,7 @@ function buildEntryBlock(entry: RegexEntry): string[] {
   // Last updated date from git history
   if (entry.lastUpdated) {
     lines.push('');
-    lines.push(`*Last updated: ${entry.lastUpdated}*`);
+    lines.push(`<sub>Last updated: ${entry.lastUpdated}</sub>`);
   }
 
   return lines;
