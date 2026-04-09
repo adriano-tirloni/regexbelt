@@ -2,7 +2,7 @@
 
 # regex-belt
 
-**A curated collection of 100+ battle-tested regular expressions you'd otherwise copy-paste from Stack Overflow.**
+**A collection of hundreds battle-tested regular expressions you'd otherwise copy-paste from Stack Overflow.**
 
 Dates, documents, phone numbers, bank accounts, license plates — validated, tested, and ready to import.
 
@@ -20,18 +20,6 @@ Dates, documents, phone numbers, bank accounts, license plates — validated, te
 - **Tree-shakeable.** Import only what you need. Your bundler drops the rest.
 - **Self-documenting.** This README is auto-generated from JSDoc in the source — the docs are always in sync with the code.
 
-## What's inside
-
-| Category | Coverage | Examples |
-|:---------|:---------|:---------|
-| **Datetime** | ISO dates, UTC timestamps | `2022-12-31`, `2024-01-15T12:00:00Z` |
-| **Brazil / Documents** | CPF, CNPJ, RG, CNH, Passport, and 10+ more | `123.456.789-09`, `11.222.333/0001-81` |
-| **Brazil / Financial** | PIX keys, boletos, accounts for 23+ banks | Nubank, Itau, Bradesco, Caixa, ... |
-| **Brazil / Government** | IBGE, CNJ, SUFRAMA, IE for all 27 states | `3550308`, `AC`, `SP`, ..., `TO` |
-| **Brazil / Vehicles** | License plates, RENAVAM, VIN, ANTT | `ABC1D23`, Mercosul & legacy formats |
-| **Brazil / Contact** | Phone, CEP, Correios tracking | `+55 11 91234-5678`, `01001-000` |
-
-> More countries and categories are on the way — contributions are welcome!
 
 ## Install
 
@@ -41,6 +29,13 @@ npm install regex-belt
 pnpm add regex-belt
 # or
 yarn add regex-belt
+```
+
+## Import
+```js
+import { datetime, countries } from 'regex-belt';
+import { RegexBelt } from 'regex-belt';
+import RegexBelt from 'regex-belt';
 ```
 
 ## Quick start
@@ -130,10 +125,11 @@ Add an `export * from './your-file.ts'` line to the `_index.ts` in the same dire
 #### 5. Verify and generate
 
 ```bash
-pnpm test          # run the test suite
-pnpm lint --write  # fix formatting
-pnpm readme        # regenerate this README
+pnpm check-all   # Run all checks before it can be published
 ```
+
+#### 6. Open a PR
+That's it
 
 <!-- GENERATED:START - Do not edit below this line -->
 
