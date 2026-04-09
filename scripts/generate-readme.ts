@@ -139,21 +139,26 @@ const entries = files.map(parseRegexFile).filter((entry): entry is RegexEntry =>
 const grouped = groupByCategory(entries);
 
 /**
- * Builds a padded, aligned markdown table from rows of cell values
+ * Builds an HTML table with a pattern row spanning full width below each entry
  */
-function buildAlignedTable(headers: string[], rows: string[][]): string[] {
-  // Calculate max width per column
-  const widths = headers.map((header, col) =>
-    Math.max(header.length, ...rows.map(row => row[col].length)),
-  );
+function buildHtmlTable(categoryEntries: RegexEntry[]): string[] {
+  const lines: string[] = [];
 
-  const pad = (value: string, col: number) => value.padEnd(widths[col]);
+  lines.push('<table>');
+  lines.push('<tr><th>Name</th><th>Description</th></tr>');
 
-  const headerLine = `| ${headers.map((h, i) => pad(h, i)).join(' | ')} |`;
-  const separatorLine = `| ${widths.map(w => '-'.repeat(w)).join(' | ')} |`;
-  const dataLines = rows.map(row => `| ${row.map((cell, i) => pad(cell, i)).join(' | ')} |`);
+  for (const entry of categoryEntries) {
+    lines.push('<tr>');
+    lines.push(`  <td><code>${entry.name}</code></td>`);
+    lines.push(`  <td>${entry.description}</td>`);
+    lines.push('</tr>');
+    lines.push('<tr>');
+    lines.push(`  <td colspan="2"><code>${entry.pattern}</code></td>`);
+    lines.push('</tr>');
+  }
 
-  return [headerLine, separatorLine, ...dataLines];
+  lines.push('</table>');
+  return lines;
 }
 
 // Build the dynamic section
@@ -162,15 +167,7 @@ const dynamicLines: string[] = [];
 for (const [category, categoryEntries] of grouped) {
   dynamicLines.push(`### ${formatCategoryTitle(category)}`);
   dynamicLines.push('');
-
-  const headers = ['Name', 'Description', 'Pattern'];
-  const rows = categoryEntries.map(entry => [
-    `\`${entry.name}\``,
-    entry.description,
-    `\`${entry.pattern}\``,
-  ]);
-
-  dynamicLines.push(...buildAlignedTable(headers, rows));
+  dynamicLines.push(...buildHtmlTable(categoryEntries));
   dynamicLines.push('');
 }
 
